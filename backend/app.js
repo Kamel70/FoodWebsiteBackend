@@ -1,5 +1,4 @@
 import fs from 'node:fs/promises';
-
 import bodyParser from 'body-parser';
 import express from 'express';
 
@@ -82,15 +81,15 @@ app.post('/orders', async (req, res) => {
     // Write back to file
     await fs.writeFile('./data/orders.json', JSON.stringify(allOrders, null, 2));
     
-    res.status(201).json({ 
-      message: 'Order created!', 
-      orderId: newOrder.id 
+    res.status(201).json({
+      message: 'Order created!',
+      orderId: newOrder.id
     });
     
   } catch (error) {
     console.error('Error processing order:', error);
-    res.status(500).json({ 
-      message: 'Internal server error while processing order.' 
+    res.status(500).json({
+      message: 'Internal server error while processing order.'
     });
   }
 });
@@ -103,4 +102,8 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-app.listen(3000);
+// IMPORTANT: Change this line for Render deployment
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
